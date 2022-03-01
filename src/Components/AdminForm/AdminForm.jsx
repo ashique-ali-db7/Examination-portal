@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { update_questions } from "../../Redux/questions/questionsSlice";
 import { useDispatch } from "react-redux";
 function AdminForm() {
-  const dispatch = useDispatch()
-  let numbers = [1,2,3,4,5,6,7,8,9,10]
+  const dispatch = useDispatch();
+  let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   let formDatas = [];
   const {
     register,
@@ -37,70 +37,68 @@ function AdminForm() {
         count = 0;
       }
     }
-   
-    localStorage.setItem("questions",JSON.stringify(formDatas))
+
+    localStorage.setItem("questions", JSON.stringify(formDatas));
   };
   return (
-    <div className="mt-5" >
+    <div className="mt-5">
       <form onSubmit={handleSubmit(onSubmit)}>
-{numbers.map((elements,i)=>{
-  let answer = i+"answer"
-  return(
-    <div key={i}>
-    <p>Question {i+1}</p>
-    <input {...register(i+"qustion")} />
-    <p>options</p>
-    <input {...register(i+"A")} />
-    <input {...register(i+"B")} />
-    <input {...register(i+"C")} />
-    <input {...register(i+"D")} />
-    <br />
-    <label htmlFor="field-wind">
-      <input
-        {...register(answer)}
-        type="radio"
-        name={answer}
-        value="A"
-        id="field-wind"
-      />
-      A
-    </label>
-    <label htmlFor="field-sun">
-      <input
-        {...register(answer)}
-        type="radio"
-        name={answer}
-        value="B"
-        id="field-sun"
-      />
-      B
-    </label>
-    <label htmlFor="field-">
-      <input
-        {...register(answer)}
-        type="radio"
-        name={answer}
-        value="C"
-        id="field-"
-      />
-      C
-    </label>
-    <label htmlFor="field-su">
-      <input
-        {...register(answer)}
-        type="radio"
-        name={answer}
-        value="D"
-        id="field-su"
-      />
-      D
-    </label>
-    <br />
-    </div>
-  )
-})}
-
-     
+        {numbers.map((elements, i) => {
+          let answer = i + "answer";
+          return (
+            <div key={i}>
+              <p>Question {i + 1}</p>
+              <input {...register(i + "qustion")} />
+              <p>options</p>
+              <input {...register(i + "A")} />
+              <input {...register(i + "B")} />
+              <input {...register(i + "C")} />
+              <input {...register(i + "D")} />
+              <br />
+              <label htmlFor="field-wind">
+                <input
+                  {...register(answer)}
+                  type="radio"
+                  name={answer}
+                  value="A"
+                  id="field-wind"
+                />
+                A
+              </label>
+              <label htmlFor="field-sun">
+                <input
+                  {...register(answer)}
+                  type="radio"
+                  name={answer}
+                  value="B"
+                  id="field-sun"
+                />
+                B
+              </label>
+              <label htmlFor="field-">
+                <input
+                  {...register(answer)}
+                  type="radio"
+                  name={answer}
+                  value="C"
+                  id="field-"
+                />
+                C
+              </label>
+              <label htmlFor="field-su">
+                <input
+                  {...register(answer)}
+                  type="radio"
+                  name={answer}
+                  value="D"
+                  id="field-su"
+                />
+                D
+              </label>
+              <br />
+            </div>
+          );
+        })}
 
         <input type="submit" />
       </form>

@@ -5,8 +5,8 @@ export const questionsSlice = createSlice({
   initialState: {},
   reducers: {
     update_products: (state, action) => {
-        console.log("kkkk");
-        console.log(action.payload.questions);
+      console.log("kkkk");
+      console.log(action.payload.questions);
       state.questions = action.payload.questions;
     },
   },
