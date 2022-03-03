@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { update_questions } from "../../Redux/questions/questionsSlice";
+import "./AdminForm.css";
 import { useDispatch } from "react-redux";
+import { Card, Col, Form, Row } from "react-bootstrap";
 function AdminForm() {
   const dispatch = useDispatch();
-  let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [questionNumbers, setQuestionNumbers] = useState("")
+  const [number, setNumber] = useState(null);
+  const [numRows, setNumRows] = useState(null);
+  const [succes, setSucces] = useState(false)
+  let indents = [];
   let formDatas = [];
+  const numberOfItems = (e) => {
+    let { value } = e.target;
+    setNumber(value);
+  };
+  const numberSubmit = (e) => {
+    e.preventDefault();
+    setNumRows(number);
+  };
+  for (var i = 1; i <= numRows; i++) {
+    indents.push(i);
+  }
   const {
     register,
     handleSubmit,
@@ -13,7 +29,7 @@ function AdminForm() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    
     let object = {};
     let count = 0;
     for (let key in data) {
@@ -39,69 +55,117 @@ function AdminForm() {
     }
 
     localStorage.setItem("questions", JSON.stringify(formDatas));
+    setSucces(true)
   };
+  const addNewQuestions = () =>{
+    console.log("kk;;;;;");
+    setNumRows(null)
+    setSucces(false);
+    
+  }
   return (
+   
+
     <div className="mt-5">
+      {succes? 
+      <div>
+      <h2>Succesfully questions submitted</h2>
+      <button onClick={addNewQuestions}>Add new questions</button>
+      </div>
+      :
       <form onSubmit={handleSubmit(onSubmit)}>
-        {numbers.map((elements, i) => {
+      <Row>
+          <Col lg={6} md={6} xs={12}>
+            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="number"
+                onChange={numberOfItems}
+                placeholder="Enter number of questions"
+              />
+            </Form.Group>
+          </Col>
+          <Col lg={6} md={6} xs={6} >
+            <button
+              onClick={numberSubmit}
+              style={{
+                border: "none",
+                backgroundColor: "white",
+                marginTop: "0px",
+                padding: "2%",
+                width: "35px",
+                border: "1px solid grey",
+              }}
+            >
+              +
+            </button>
+          </Col>
+        </Row>
+        {indents.map((elements, i) => {
           let answer = i + "answer";
           return (
             <div key={i}>
-              <p>Question {i + 1}</p>
-              <input {...register(i + "qustion")} />
-              <p>options</p>
-              <input {...register(i + "A")} />
-              <input {...register(i + "B")} />
-              <input {...register(i + "C")} />
-              <input {...register(i + "D")} />
-              <br />
-              <label htmlFor="field-wind">
-                <input
-                  {...register(answer)}
-                  type="radio"
-                  name={answer}
-                  value="A"
-                  id="field-wind"
-                />
-                A
-              </label>
-              <label htmlFor="field-sun">
-                <input
-                  {...register(answer)}
-                  type="radio"
-                  name={answer}
-                  value="B"
-                  id="field-sun"
-                />
-                B
-              </label>
-              <label htmlFor="field-">
-                <input
-                  {...register(answer)}
-                  type="radio"
-                  name={answer}
-                  value="C"
-                  id="field-"
-                />
-                C
-              </label>
-              <label htmlFor="field-su">
-                <input
-                  {...register(answer)}
-                  type="radio"
-                  name={answer}
-                  value="D"
-                  id="field-su"
-                />
-                D
-              </label>
-              <br />
+              <Card className="shadow mt-3 ">
+                <Card.Body>
+                  <p>Question {i + 1}</p>
+                  <textarea {...register(i + "qustion")} cols="50"/>
+                  <p>options</p>
+                  <input {...register(i + "A")} placeholder="option A" className="me-2"/>
+                  <input {...register(i + "B")} placeholder="option B" className="me-2"/>
+                  <input {...register(i + "C")} placeholder="option C" className="me-2"/>
+                  <input {...register(i + "D")} placeholder="option D" className="me-2"/>
+                  <br />
+                  <p className="answer-p">Select correct answer</p>
+                  <label htmlFor="field-wind">
+                    <input
+                      {...register(answer)}
+                      type="radio"
+                      name={answer}
+                      value="a"
+                      id="field-wind"
+                    />
+                    A
+                  </label>
+                  <label htmlFor="field-sun">
+                    <input
+                      {...register(answer)}
+                      type="radio"
+                      name={answer}
+                      value="b"
+                      id="field-sun"
+                    />
+                    B
+                  </label>
+                  <label htmlFor="field-">
+                    <input
+                      {...register(answer)}
+                      type="radio"
+                      name={answer}
+                      value="c"
+                      id="field-"
+                    />
+                    C
+                  </label>
+                  <label htmlFor="field-su">
+                    <input
+                      {...register(answer)}
+                      type="radio"
+                      name={answer}
+                      value="d"
+                      id="field-su"
+                    />
+                    D
+                  </label>
+                  <br />
+                </Card.Body>
+              </Card>
             </div>
           );
         })}
-
-        <input type="submit" />
+       {numRows && <div className="submit-button-container me-auto ms-auto mt-5 mb-5">
+          <input className="submit-button p-2" type="submit" />
+        </div>}
       </form>
+}
     </div>
   );
 }
